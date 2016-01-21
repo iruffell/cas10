@@ -1,0 +1,11 @@
+#!/bin/bash
+
+. /vagrant/common.sh
+
+# copy ssh key
+echo "Copying SSH key to worker..."
+sudo su ${SAS_USER} -c "cd; mkdir .ssh;cp /vagrant/id_rsa* .ssh'';cp .ssh/id_rsa.pub .ssh/authorized_keys;chmod 640 .ssh/authorized_keys"
+
+# launch CAS
+echo "Launching CAS..."
+./cas/bin/caslaunch join controller -gcport ${CAS_GC_PORT} -role worker -logcfgloc /opt/cas/logcfg.xml -keyfile /vagrant/id_rsa -userloc /home/%USER -elastic -provlist anon.ext &
