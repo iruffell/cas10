@@ -1,3 +1,7 @@
 ---
-- include: controller.yml
-- include: workers.yml
+- name: cas10 install and setup
+  hosts: controllers
+  roles:
+    - common
+    - sas
+

@@ -1,0 +1,7 @@
+---
+- hosts: controllers
+  sudo: true
+
+  roles:
+    - common
+    - controller
