@@ -1,5 +1,4 @@
 ---
-
 - name: Install ntp 
   yum: name=ntp state=present
   tags: ntp

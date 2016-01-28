@@ -6,14 +6,14 @@
   user: name={{sas_user}} shell=/bin/bash group={{sas_group}} home=/home/{{sas_user}} createhome=yes generate_ssh_key=yes
 
 - name: copy ssh keys
-  copy: src=/vagrant/id_rsa dest=/home/{{sas_user}}/.ssh/id_rsa owner={{sas_user}} group={{sas_group}} mode=0600
-  copy: src=/vagrant/id_rsa.pub dest=/home/{{sas_user}}/.ssh/id_rsa.pub owner={{sas_user}} group={{sas_user}} mode=0600
+  copy: src=../id_rsa dest=/home/{{sas_user}}/.ssh/id_rsa owner={{sas_user}} group={{sas_group}} mode=0600
+  copy: src=../id_rsa.pub dest=/home/{{sas_user}}/.ssh/id_rsa.pub owner={{sas_user}} group={{sas_user}} mode=0600
 
 - name: create authorized_keys dir
   file: path=/home/{{sas_user}}/.ssh/authorized_keys state=directory owner={{sas_user}} group={{sas_group}} mode=0700
 
 - name: copy ssh key to authorized_keys dir
-  copy: src=/home/{{sas_user}}/.ssh/id_rsa.pub dest=/home/{{sas_user}}/.ssh/authorized_keys/id_rsa.pub owner={{sas_user}} group={{sas_group}} mode=0600
+  copy: src=../id_rsa.pub dest=/home/{{sas_user}}/.ssh/authorized_keys/id_rsa.pub owner={{sas_user}} group={{sas_group}} mode=0600
 
 - name: add SAS_USER to souders file
   lineinfile: dest=/etc/sudoers line="{{sas_user}} ALL=(ALL) NOPASSWD:ALL"

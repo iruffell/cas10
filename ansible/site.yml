@@ -1,7 +1,8 @@
 ---
-- name: cas10 install and setup
-  hosts: controllers
+- hosts: all
   roles:
-    - common
-    - sas
+    - { role: ontic.ntp, sudo: yes }
 
+- hosts: controllers
+  roles:
+    - { role: sas, sudo: yes,  sas_user: sas, sas_group: sas }
