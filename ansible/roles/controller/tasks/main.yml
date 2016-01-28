@@ -1,0 +1,9 @@
+---
+- name: add {{test_user}} user
+  user: name={{test_user}} password={{test_passwd}} shell=/bin/bash group={{sas_group}} home=/home/{{test_user}} createhome=yes generate_ssh_key=yes
+
+- name: create launch script
+  lineinfile: dest=/opt/cas/start.sh create=yes mode=0755 line="nohup /opt/cas/bin/caslaunch start -port {{cas_port}} -httpport {{cas_http_port}} -mode mpp -gcport {{cas_gc_port}} -colocation none -role controller -logcfgloc /opt/cas/logcfg.xml -keyfile /vagrant/id_rsa -elastic -userloc /home/{{test_user}} -provlist anon.addd testa &"
+
+- name: start CAS controller
+  shell: /opt/cas/start.sh

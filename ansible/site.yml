@@ -2,7 +2,20 @@
 - hosts: all
   roles:
     - { role: ontic.ntp, sudo: yes }
+    - { role: sas,
+        sudo: yes,
+        sas_user: sas,
+       sas_group: sas,
+       config_dir: ..,
+       tar_file: cas-laxno-1.0.0-20160118.104700-1.tar.gz }
 
 - hosts: controllers
   roles:
-    - { role: sas, sudo: yes,  sas_user: sas, sas_group: sas }
+    - { role: controller,
+        sudo: yes,
+        test_user: test,
+        test_passwd: test,
+        sas_group: sas,
+        cas_port: 37893,
+        cas_http_port: 47893,
+        cas_gc_port: 57893}

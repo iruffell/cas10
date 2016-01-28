@@ -1,0 +1,26 @@
+---
+ - name: create /opt dir
+   file: path=/opt state=directory
+
+ - name: unpack CAS tarball
+   unarchive: src={{config_dir}}/{{tar_file}} dest=/opt
+
+ - name: copy config files
+   copy: src={{config_dir}}/cas.hosts dest=/opt/cas
+
+ - name: create settings file
+   file: path=/opt/cas/cas.settings.local state=touch
+
+ - name: modify the launchconfig to support host authentication
+   lineinfile: dest=/opt/cas/bin/launchconfig line='launchServerAs={{sas_user}}'
+   lineinfile: dest=/opt/cas/bin/launchconfig line=useHostToken
+   lineinfile: dest=/opt/cas/bin/launchconfig line=externalIdent
+
+ - name: add PAM configuration
+   copy: src={{config_dir}}/cas.pam dest=/etc/pam.d/cas owner=root
+
+ - name: change owner on CAS dir
+   file: path=/opt/cas owner={{sas_user}} group={{sas_group}} recurse=yes
+
+ - name: set permsions on caslaunch
+   file: path=/opt/cas/bin/caslaunch owner=root mode=4755
